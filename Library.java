@@ -11,6 +11,8 @@ public class Library {
         String publisher = "";
         int num_pages = 0;
         int rating = 0;
+        String start_date_input = "";
+        String end_date_input = "";
         int[] start_date = new int[3];
         int[] end_date = new int[3];
         boolean valid = false;
@@ -53,33 +55,13 @@ public class Library {
             }
         }
 
-        valid = false;
-        while(!valid) {
-            System.out.println("Enter your rating for the book on a scale from 1-10: ");
-            if(input.hasNextInt()) {
-                rating = input.nextInt();
-                if((rating < 1) || (rating > 10)) {
-                    System.out.println("Please input a number between 1 and 10, inclusive.");
-                }
-                else {
-                    valid = true;
-                }
-            }
-            else {
-                System.out.println("Sorry, couldn't understand you!");
-                input.next();
-            }
-        }
+        input.nextLine();
 
         valid = false;
         while(!valid) {
             System.out.println("Enter the date when you started the book in the format mm/dd/yyyy: ");
             if(input.hasNextLine()) {
-                String start_date_input = input.nextLine();
-                String[] start_date_string = start_date_input.split("/");
-                for(int i = 0; i < 3; i++) {
-                    start_date[i] = Integer.parseInt(start_date_string[i]);
-                }
+                start_date_input = input.nextLine();
                 valid = true;
             }
             else {
@@ -92,11 +74,7 @@ public class Library {
         while(!valid) {
             System.out.println("Enter the date when you finished the book in the format mm/dd/yyyy: ");
             if(input.hasNextLine()) {
-                String end_date_input = input.nextLine();
-                String[] end_date_string = (end_date_input).split("/");
-                for(int i = 0; i < 3; i++) {
-                    end_date[i] = Integer.parseInt(end_date_string[i]);
-                }
+                end_date_input = input.nextLine();
                 valid = true;
             }
             else {
@@ -105,8 +83,40 @@ public class Library {
             }
         }
 
+        valid = false;
+        while(!valid) {
+            System.out.println("Enter your rating for the book on a scale from 1-10: ");
+            if(input.hasNextInt()) {
+                rating = input.nextInt();
+                if((rating < 1) || (rating > 10)) {
+                    System.out.println("Please input a number between 1 and 10, inclusive.");
+                    input.next();
+                }
+                else {
+                    valid = true;
+                }
+            }
+            else {
+                System.out.println("Sorry, couldn't understand you!");
+                input.next();
+            }
+        }
+
+        System.out.println(start_date_input + " " + end_date_input);
+
+        String[] start_date_string = start_date_input.split("/", 3);
+        String[] end_date_string = end_date_input.split("/", 3);
+
+        for(int i = 0; i < 3; i++) {
+            start_date[i] = Integer.parseInt(start_date_string[i]);
+            end_date[i] = Integer.parseInt(end_date_string[i]);
+        }
+
+        // System.out.println(start_date[0] + " " + start_date[1] + " " + start_date[2]);
+
         Book new_book = new Book(name, publisher, num_pages, rating, start_date, end_date);
         book_collection.add(new_book);
+        //input.close();
     }
 
     private int get_num_books() {

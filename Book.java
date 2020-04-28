@@ -3,8 +3,8 @@ public class Book {
     String publisher;
     int num_pages;
     int rating;
-    int[3] start_date;
-    int[3] end_date;
+    int[] start_date = new int[3];
+    int[] end_date = new int[3];
 
     public Book(String name, String publisher, int num_pages, int rating, int[] start_date, int[] end_date) {
         this.name = name;
@@ -29,5 +29,13 @@ public class Book {
 
     public int get_rating() {
         return rating;
+    }
+
+    public int[] get_start_date() {
+        return start_date;
+    }
+
+    public int[] get_end_date() {
+        return end_date;
     }
 }
