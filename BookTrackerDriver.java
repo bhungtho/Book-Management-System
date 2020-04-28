@@ -8,12 +8,15 @@ public class BookTrackerDriver {
 
         while(is_done == false) {
             System.out.println("What would you like to do?\n");
-            System.out.println("(A) Add a new book (E) Exit");
+            System.out.println("(A) Add a new book (B) Library Stats (E) Exit");
             String option = input.nextLine();
 
             switch(option) {
                 case "A":
                     new_lib.add_book();
+                    break;
+                case "B":
+                    new_lib.print_stats();
                     break;
                 case "E":
                     is_done = true;
