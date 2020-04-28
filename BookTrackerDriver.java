@@ -2,8 +2,11 @@ import java.util.Scanner;
 
 public class BookTrackerDriver {
     public static void main(String[] args) {
+        Database new_database = new Database();
         Library new_lib = new Library();
         boolean is_done = false;
+
+        new_database.connect();
 
         while(is_done == false) {
             System.out.println("What would you like to do?\n");
