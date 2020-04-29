@@ -36,8 +36,8 @@ public class BookTrackerDriver {
     }
 
     public static void database_operations(Database new_database) {
-        System.out.println("Let's modify the database!");
-        System.out.println("(A) Create the table (ONLY DO THIS IF A TABLE IS NOT ALREADY THERE)");
+        System.out.println("Let's modify the database (for testing purposes mostly)!");
+        System.out.println("(A) Create the table (ONLY DO THIS IF A TABLE IS NOT ALREADY THERE) (B) Delete the table");
 
         Scanner input = new Scanner(System.in);
         String option = input.nextLine();
@@ -45,6 +45,9 @@ public class BookTrackerDriver {
         switch(option) {
             case "A":
                 new_database.create_table();
+                break;
+            case "B":
+                new_database.delete_table();
                 break;
             default:
         }

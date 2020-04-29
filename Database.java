@@ -27,11 +27,12 @@ public class Database {
 
             stmt = c.createStatement();
             String sql = "CREATE TABLE BOOKS " +
-                "(ID INT PRIMARY KEY     NOT NULL," +
-                " NAME           TEXT    NOT NULL, " +
-                " AGE            INT     NOT NULL, " +
-                " ADDRESS        CHAR(50), " +
-                " SALARY         REAL)";
+                "(NAME           TEXT, " +
+                " PUBLISHER      TEXT, " +
+                " NUM_PAGES      INT, " +
+                " RATING         INT, " +
+                " START_DATE     TEXT, " +
+                " END_DATE       TEXT)";
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -40,5 +41,29 @@ public class Database {
             System.exit(0);
         }
         System.out.println("Table created successfully");
+    }
+
+    public void delete_table() {
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+            System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+            String sql = "DROP TABLE COMPANY";
+            stmt.executeUpdate(sql);
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        System.out.println("Table deleted successfully");
+    }
+
+    public void insert_book() {
+        return;
     }
 }
