@@ -1,6 +1,6 @@
 import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class Library {
     //List<Book> book_collection = new ArrayList<Book>();
@@ -14,8 +14,8 @@ public class Library {
         int rating = 0;
         String start_date_input = "";
         String end_date_input = "";
-        int[] start_date = new int[3];
-        int[] end_date = new int[3];
+        // int[] start_date = new int[3];
+        // int[] end_date = new int[3];
         boolean valid = false;
         
         while(!valid) {

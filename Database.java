@@ -6,16 +6,16 @@ import java.sql.ResultSet;
 public class Database {
     // connects to database "library" MUST ALREADY BE CREATED
     public void connect() {
-        Connection c = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
-         } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
-            System.exit(0);
-         }
-         System.out.println("Opened database successfully");
+        //Connection c = null;
+        //try {
+        //    Class.forName("org.postgresql.Driver");
+        //    c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+        // } catch (Exception e) {
+        //    e.printStackTrace();
+        //    System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        //    System.exit(0);
+        // }
+        // System.out.println("Opened database successfully");
     }
 
     public void create_table() {
