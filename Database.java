@@ -2,6 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class Database {
     // connects to database "library" MUST ALREADY BE CREATED
@@ -72,7 +73,7 @@ public class Database {
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             // get values for insertion
             String name = to_add.get_name();
@@ -113,7 +114,7 @@ public class Database {
             c = DriverManager
                 .getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             //String to_delete_name = to_delete.get_name();
 
@@ -129,6 +130,94 @@ public class Database {
             System.exit(0);
         }
         System.out.println("Book deleted successfully");
+    }
+
+    public void update_books(String update_name) {
+        boolean valid = false;
+        Connection c = null;
+        Statement stmt = null;
+        //Statement query = null;
+        try {
+            // connect to database library
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+            c.setAutoCommit(false);
+            // System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE NAME = '" + update_name + "'");
+            while (rs.next()) {
+                String name = rs.getString("name");
+                String publisher = rs.getString("publisher");
+                int num_pages = rs.getInt("num_pages");
+                int rating = rs.getInt("rating");
+                String start_date = rs.getString("start_date");
+                String end_date = rs.getString("end_date");
+
+                System.out.println("NAME = " + name);
+                System.out.println("PUBLISHER = " + publisher);
+                System.out.println("NUM_PAGES = " + num_pages);
+                System.out.println("RATING = " + rating);
+                System.out.println("START_DATE = " + start_date);
+                System.out.println("END_DATE = " + end_date);
+                System.out.println();
+            }
+            System.out.println("Which field would you like to update?");
+
+            String sql = null;
+            String update_field = null;
+            int update_field_int = 0;
+
+            Scanner input = new Scanner(System.in);
+            String field = input.nextLine();
+            System.out.println("What would you like to update " + field + " to?");
+
+            switch(field) {
+                case "NAME":
+                    update_field = input.nextLine();
+                    sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
+                    break;
+                case "PUBLISHER":
+                    update_field = input.nextLine();
+                    sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
+                    break;
+                case "NUM_PAGES":
+                    update_field_int = input.nextInt();
+                    sql = "UPDATE BOOKS set " + field + " = '" + Integer.toString(update_field_int) + "' where NAME = '" + update_name + "';";
+                    break;
+                case "RATING":
+                    update_field_int = input.nextInt();
+                    sql = "UPDATE BOOKS set " + field + " = '" + Integer.toString(update_field_int) + "' where NAME = '" + update_name + "';";
+                    break;
+                case "START_DATE":
+                    update_field = input.nextLine();
+                    sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
+                    break;
+                case "END_DATE":
+                    update_field = input.nextLine();
+                    sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
+                    break;
+                default:
+                    System.out.println("The field you entered is not valid. The program will now exit.");
+                    rs.close();
+                    stmt.close();
+                    c.close();
+                    return;
+            }
+
+            stmt = c.createStatement();
+            // String sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
+            stmt.executeUpdate(sql);
+            c.commit();
+            
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch ( Exception e ) {
+            System.err.println( e.getClass().getName()+": "+ e.getMessage() );
+            System.exit(0);
+        }
+        System.out.println("Operation done successfully");
     }
 
     public void get_books() {

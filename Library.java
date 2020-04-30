@@ -147,6 +147,31 @@ public class Library {
         new_database.delete_book(book_name);
     }
 
+    public void update_book() {
+        String book_name = "";
+        boolean valid = false;
+
+        System.out.println("Current books in the library:");
+        new_database.get_book_names();
+
+        System.out.println();
+        System.out.println("Which book would you like to update?");
+
+        Scanner input = new Scanner(System.in);
+        while(!valid) {
+            if(input.hasNextLine()) {
+                book_name = input.nextLine();
+                valid = true;
+            }
+            else {
+                System.out.println("Sorry, couldn't understand you!");
+                input.next();
+            }
+        }
+        System.out.println();
+        new_database.update_books(book_name);
+    }
+
     public void print_books() {
         new_database.get_books();
     }
