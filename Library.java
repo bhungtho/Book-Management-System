@@ -3,7 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    List<Book> book_collection = new ArrayList<Book>();
+    //List<Book> book_collection = new ArrayList<Book>();
+    Database new_database = new Database();
 
     public void add_book() {
         Scanner input = new Scanner(System.in);
@@ -104,31 +105,64 @@ public class Library {
 
         System.out.println(start_date_input + " " + end_date_input);
 
-        String[] start_date_string = start_date_input.split("/", 3);
-        String[] end_date_string = end_date_input.split("/", 3);
+        //String[] start_date_string = start_date_input.split("/", 3);
+        //String[] end_date_string = end_date_input.split("/", 3);
 
-        for(int i = 0; i < 3; i++) {
-            start_date[i] = Integer.parseInt(start_date_string[i]);
-            end_date[i] = Integer.parseInt(end_date_string[i]);
-        }
+        //for(int i = 0; i < 3; i++) {
+            //start_date[i] = Integer.parseInt(start_date_string[i]);
+            //end_date[i] = Integer.parseInt(end_date_string[i]);
+        //}
 
         // System.out.println(start_date[0] + " " + start_date[1] + " " + start_date[2]);
 
-        Book new_book = new Book(name, publisher, num_pages, rating, start_date, end_date);
-        book_collection.add(new_book);
+        Book new_book = new Book(name, publisher, num_pages, rating, start_date_input, end_date_input);
+        //book_collection.add(new_book);
         //input.close();
+
+        new_database.insert_book(new_book);
+    }
+
+    public void delete_book() {
+        String book_name = "";
+        boolean valid = false;
+
+        System.out.println("Current books in the library:");
+        new_database.get_book_names();
+
+        System.out.println("");
+        System.out.println("Which book would you like to delete?");
+
+        Scanner input = new Scanner(System.in);
+        while(!valid) {
+            if(input.hasNextLine()) {
+                book_name = input.nextLine();
+                valid = true;
+            }
+            else {
+                System.out.println("Sorry, couldn't understand you!");
+                input.next();
+            }
+        }
+
+        new_database.delete_book(book_name);
+    }
+
+    public void print_books() {
+        new_database.get_books();
     }
 
     private int get_num_books() {
-        return book_collection.size();
+        // return book_collection.size();
+        return 0;
     }
 
     private int get_average_rating() {
-        int sum = 0;
-        for(int i = 0; i < book_collection.size(); i++) {
-            sum += book_collection.get(i).get_rating();
-        }
-        return sum / book_collection.size();
+        // int sum = 0;
+        // for(int i = 0; i < book_collection.size(); i++) {
+        //     sum += book_collection.get(i).get_rating();
+        // }
+        // return sum / book_collection.size();
+        return 0;
     }
 
     public void print_stats() {
