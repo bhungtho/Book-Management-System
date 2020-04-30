@@ -177,20 +177,16 @@ public class Library {
     }
 
     private int get_num_books() {
-        // return book_collection.size();
-        return 0;
+        return new_database.get_num_books();
+        //return 0;
     }
 
-    private int get_average_rating() {
-        // int sum = 0;
-        // for(int i = 0; i < book_collection.size(); i++) {
-        //     sum += book_collection.get(i).get_rating();
-        // }
-        // return sum / book_collection.size();
-        return 0;
+    private float get_average_rating() {
+        return new_database.get_avg_rating();
     }
 
     public void print_stats() {
+        System.out.println();
         int num_books = get_num_books();
         if(num_books < 1) {
             System.out.println("There are currently no books in the library. Statistics would be meaningless.");
@@ -198,14 +194,8 @@ public class Library {
         }
         System.out.println("Number of books in the library: " + num_books);
 
-        int average_rating = get_average_rating();
+        float average_rating = get_average_rating();
         System.out.println("Average rating: " + average_rating);
-
-        System.out.println("Press enter to continue ...");
-        try {
-            System.in.read();
-        }
-        catch(Exception e) {
-        }
+        System.out.println();
     }
 }

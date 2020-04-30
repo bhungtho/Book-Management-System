@@ -10,7 +10,8 @@ public class BookTrackerDriver {
 
         while(is_done == false) {
             System.out.println("What would you like to do?\n");
-            System.out.println("(A) Add a new book (B) Library Stats (C) Print Books (D) Delete a book (X) Database Operations (Z) Exit");
+            System.out.println("(A) Add a new book (B) Delete a book (C) Update a book (D) Print Books (E) Library Stats");
+            System.out.println("(F) Get books in text file (X) Database Operations (Z) Exit");
             
             Scanner input = new Scanner(System.in);
             String option = input.nextLine();
@@ -19,17 +20,20 @@ public class BookTrackerDriver {
                 case "A":
                     new_lib.add_book();
                     break;
-                case "B":
+                case "E":
                     new_lib.print_stats();
                     break;
-                case "C":
+                case "D":
                     new_lib.print_books();
                     break;
-                case "D":
+                case "B":
                     new_lib.delete_book();
                     break;
-                case "E":
+                case "C":
                     new_lib.update_book();
+                    break;
+                case "F":
+                    new_lib.print_to_text();
                     break;
                 case "X":
                     database_operations(new_database);

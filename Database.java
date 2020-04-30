@@ -133,7 +133,7 @@ public class Database {
     }
 
     public void update_books(String update_name) {
-        boolean valid = false;
+        // boolean valid = false;
         Connection c = null;
         Statement stmt = null;
         //Statement query = null;
@@ -282,5 +282,62 @@ public class Database {
             System.exit(0);
         }
         //System.out.println("Operation done successfully");
+    }
+
+    public int get_num_books() {
+        int count = 0;
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+            c.setAutoCommit(false);
+            //System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(*) as num_books FROM BOOKS;");
+            while (rs.next()) {
+                count = rs.getInt("num_books");
+
+                //System.out.println("num_books = " + count);
+                //System.out.println();
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        return count;
+        //System.out.println("Operation done successfully");
+    }
+
+    public float get_avg_rating() {
+        float average = 0;
+        Connection c = null;
+        Statement stmt = null;
+        try {
+            Class.forName("org.postgresql.Driver");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+            c.setAutoCommit(false);
+            //System.out.println("Opened database successfully");
+
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT AVG(RATING) as avg FROM BOOKS;");
+            while (rs.next()) {
+                average = rs.getInt("avg");
+
+                //System.out.println("num_books = " + count);
+                //System.out.println();
+            }
+            rs.close();
+            stmt.close();
+            c.close();
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            System.exit(0);
+        }
+        return average;
     }
 }
