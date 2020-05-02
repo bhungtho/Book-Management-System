@@ -1,6 +1,6 @@
-# Book-Tracker
+# Book Management System
 
-A program to store books (such as the books a user has read), and view various statistics about the books stored. Written in Java, with database management using PostgreSQL.
+A program to store books (such as the books a user has read), and view various statistics about the books stored. Written in Java, with database management using PostgreSQL and GUI implementation using Swing.
 
 How to use:
 
