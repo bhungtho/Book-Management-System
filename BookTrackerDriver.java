@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class BookTrackerDriver {
     public static void main(String[] args) {
+        GUI the_gui = new GUI();
         Database new_database = new Database();
         Library new_lib = new Library();
         boolean is_done = false;
