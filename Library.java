@@ -198,4 +198,8 @@ public class Library {
         System.out.println("Average rating: " + average_rating);
         System.out.println();
     }
+
+    public void print_to_text() {
+        return;
+    }
 }
