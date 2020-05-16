@@ -13,13 +13,13 @@ ONLY DO STEPS 1-2 THE FIRST TIME YOU RUN THE PROGRAM
 3. Now, you can add books (A), delete books (D), view the books currently stored (C), and view some statistics (B).
 
 In-Progress:
-- storing book information in PostgreSQL
 - MORE STATISTICS
+- GUI (Java Swing)
 
 To-do:
 - graphs????
-- GUI
 
 Done:
 - add read-date to Book class
+- storing book information in PostgreSQL
 
