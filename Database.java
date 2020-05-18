@@ -3,6 +3,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Database {
     // connects to database "library" MUST ALREADY BE CREATED
@@ -220,14 +221,15 @@ public class Database {
         System.out.println("Operation done successfully");
     }
 
-    public void get_books() {
+    public Vector<Vector<String>> get_books() {
+        Vector<Vector<String>> book_data = new Vector<>();
         Connection c = null;
         Statement stmt = null;
         try {
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             c.setAutoCommit(false);
-            System.out.println("Opened database successfully");
+            //System.out.println("Opened database successfully");
 
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM BOOKS;");
@@ -235,10 +237,23 @@ public class Database {
                 String name = rs.getString("name");
                 String publisher = rs.getString("publisher");
                 int num_pages = rs.getInt("num_pages");
+                String num_pages_string = Integer.toString(num_pages);
                 int rating = rs.getInt("rating");
+                String rating_string = Integer.toString(rating);
                 String start_date = rs.getString("start_date");
                 String end_date = rs.getString("end_date");
 
+                Vector<String> book_data_temp = new Vector<>();
+                book_data_temp.add(name);
+                book_data_temp.add(publisher);
+                book_data_temp.add(num_pages_string);
+                book_data_temp.add(rating_string);
+                book_data_temp.add(start_date);
+                book_data_temp.add(end_date);
+
+                book_data.add(book_data_temp);
+
+                /*
                 System.out.println("NAME = " + name);
                 System.out.println("PUBLISHER = " + publisher);
                 System.out.println("NUM_PAGES = " + num_pages);
@@ -246,6 +261,7 @@ public class Database {
                 System.out.println("START_DATE = " + start_date);
                 System.out.println("END_DATE = " + end_date);
                 System.out.println();
+                */
             }
             rs.close();
             stmt.close();
@@ -254,7 +270,8 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("Operation done successfully");
+        //System.out.println("Operation done successfully");
+        return book_data;
     }
 
     public void get_book_names() {

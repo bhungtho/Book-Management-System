@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Vector;
 
 public class GUI extends JFrame implements ActionListener {
     Library our_lib;
@@ -20,6 +21,10 @@ public class GUI extends JFrame implements ActionListener {
     JLabel rating_label;
     JLabel start_label;
     JLabel end_label;
+
+    JTable book_table;
+
+    JScrollPane sp;
     
     public GUI(Library new_lib) {
         our_lib = new_lib;
@@ -51,6 +56,7 @@ public class GUI extends JFrame implements ActionListener {
         tf_setup();
         button_setup();
         frame_setup();
+        table_setup();
     }
 
 
@@ -127,5 +133,22 @@ public class GUI extends JFrame implements ActionListener {
 
         // visible or not
         f.setVisible(true);
+    }
+
+    public void table_setup() {
+        Vector<Vector<String>> book_data = our_lib.print_books();
+        Vector<String> heading = new Vector<>();
+        heading.add("Name");
+        heading.add("Publisher");
+        heading.add("Num. Pages");
+        heading.add("Rating");
+        heading.add("Start Date");
+        heading.add("End Date");
+        this.book_table = new JTable(book_data, heading);
+
+        book_table.setBounds(240, 5, 600, 500);
+
+        this.sp = new JScrollPane(book_table);
+        f.add(sp);
     }
 }

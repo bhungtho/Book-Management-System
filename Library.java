@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Vector;
 //import java.util.ArrayList;
 //import java.util.List;
 
@@ -175,8 +176,8 @@ public class Library {
         new_database.update_books(book_name);
     }
 
-    public void print_books() {
-        new_database.get_books();
+    public Vector<Vector<String>> print_books() {
+        return new_database.get_books();
     }
 
     private int get_num_books() {
