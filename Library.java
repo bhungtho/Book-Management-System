@@ -6,7 +6,8 @@ public class Library {
     //List<Book> book_collection = new ArrayList<Book>();
     Database new_database = new Database();
 
-    public void add_book() {
+    public void add_book(String name, String publisher, int num_pages, int rating, String start_date_input, String end_date_input) {
+        /*
         Scanner input = new Scanner(System.in);
         String name = "";
         String publisher = "";
@@ -114,8 +115,10 @@ public class Library {
         //}
 
         // System.out.println(start_date[0] + " " + start_date[1] + " " + start_date[2]);
-
+        */
+        
         Book new_book = new Book(name, publisher, num_pages, rating, start_date_input, end_date_input);
+        
         //book_collection.add(new_book);
         //input.close();
 

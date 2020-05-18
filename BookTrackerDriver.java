@@ -1,14 +1,16 @@
-import java.util.Scanner;
+//import java.util.Scanner;
 
 public class BookTrackerDriver {
     public static void main(String[] args) {
-        GUI the_gui = new GUI();
-        Database new_database = new Database();
         Library new_lib = new Library();
-        boolean is_done = false;
+        GUI the_gui = new GUI(new_lib);
+        
+        // Database new_database = new Database();
+        //boolean is_done = false;
 
         //new_database.connect();
 
+        /*
         while(is_done == false) {
             System.out.println("What would you like to do?\n");
             System.out.println("(A) Add a new book (B) Delete a book (C) Update a book (D) Print Books (E) Library Stats");
@@ -47,9 +49,9 @@ public class BookTrackerDriver {
             }
             //input.close();
         }
+        */
     }
-
-    public static void database_operations(Database new_database) {
+    /*    public static void database_operations(Database new_database) {
         System.out.println("Let's modify the database (for testing purposes mostly)!");
         System.out.println("(A) Create the table (ONLY DO THIS IF A TABLE IS NOT ALREADY THERE) (B) Delete the table");
 
@@ -66,4 +68,5 @@ public class BookTrackerDriver {
             default:
         }
     }
+    */
 }
