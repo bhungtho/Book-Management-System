@@ -1,11 +1,22 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+//import java.awt.FlowLayout;
+//import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener, TableModelListener {
     Library our_lib;
     JFrame f;
+
     JButton add_button;
+    JButton delete_button;
     
     JTextField name_tf;
     JTextField publisher_tf;
@@ -25,6 +36,11 @@ public class GUI extends JFrame implements ActionListener {
     JTable book_table;
 
     JScrollPane sp;
+
+    JPanel table_pane;
+    JPanel add_pane;
+    JPanel main_pane;
+    JPanel delete_pane;
     
     public GUI(Library new_lib) {
         our_lib = new_lib;
@@ -34,6 +50,7 @@ public class GUI extends JFrame implements ActionListener {
         
         // buttons
         this.add_button = new JButton("Add");
+        this.delete_button = new JButton("Delete");
         
         // labels
         this.add_label = new JLabel("Add A Book");
@@ -45,99 +62,53 @@ public class GUI extends JFrame implements ActionListener {
         this.end_label = new JLabel("End Date:");
 
         // text fields
-        this.name_tf = new JTextField();
-        this.publisher_tf = new JTextField();
-        this.num_pages_tf = new JTextField();
-        this.rating_tf = new JTextField();
-        this.start_tf = new JTextField();
-        this.end_tf = new JTextField();
-        
-        label_setup();
-        tf_setup();
-        button_setup();
-        frame_setup();
+        this.name_tf = new JTextField(20);
+        this.publisher_tf = new JTextField(20);
+        this.num_pages_tf = new JTextField(20);
+        this.rating_tf = new JTextField(20);
+        this.start_tf = new JTextField(20);
+        this.end_tf = new JTextField(20);
+
         table_setup();
+        add_setup();
+        delete_setup();
+        frame_setup();
     }
 
 
     public void actionPerformed(ActionEvent e) {
-        String name = name_tf.getText();
-        String publisher = publisher_tf.getText();
-        String num_pages = num_pages_tf.getText();
-        int num_pages_int = Integer.parseInt(num_pages);
-        String rating = rating_tf.getText();
-        int rating_int = Integer.parseInt(rating);
-        String start = start_tf.getText();
-        String end = end_tf.getText();
-        
-        our_lib.add_book(name, publisher, num_pages_int, rating_int, start, end);
-        
-        //name_tf.setText("test");
+        if(e.getSource() == add_button) {
+            String name = name_tf.getText();
+            String publisher = publisher_tf.getText();
+            String num_pages = num_pages_tf.getText();
+            int num_pages_int = Integer.parseInt(num_pages);
+            String rating = rating_tf.getText();
+            int rating_int = Integer.parseInt(rating);
+            String start = start_tf.getText();
+            String end = end_tf.getText();
+                
+            our_lib.add_book(name, publisher, num_pages_int, rating_int, start, end);
+            //table_setup();
+        }
     }
 
-    public void label_setup() {
-        // bounds
-        add_label.setBounds(5, 5, 70, 20);
-        name_label.setBounds(5, 30, 70, 20);
-        publisher_label.setBounds(5, 55, 66, 20);
-        num_pages_label.setBounds(5, 80, 66, 20);
-        rating_label.setBounds(5, 105, 100, 20);
-        start_label.setBounds(5, 130, 66, 20);
-        end_label.setBounds(5, 155, 66, 20);
-
-        // add to frame
-        f.add(add_label);
-        f.add(name_label);
-        f.add(publisher_label);
-        f.add(num_pages_label);
-        f.add(rating_label);
-        f.add(start_label);
-        f.add(end_label);
-    }
-
-    public void tf_setup() {
-        // bounds
-        name_tf.setBounds(85, 30, 150, 20);
-        publisher_tf.setBounds(85, 55, 150, 20);
-        num_pages_tf.setBounds(85, 80, 150, 20);
-        rating_tf.setBounds(85, 105, 150, 20);
-        start_tf.setBounds(85, 130, 150, 20);
-        end_tf.setBounds(85, 155, 150, 20);
-
-        // add to frame
-        f.add(name_tf);
-        f.add(publisher_tf);
-        f.add(num_pages_tf);
-        f.add(rating_tf);
-        f.add(start_tf);
-        f.add(end_tf);
-    }
-
-    public void button_setup() {
-        // bounds
-        add_button.setBounds(5, 180, 60, 20);
-
-        // set up interactions
-        add_button.addActionListener(this);
-
-        // add to frame
-        f.add(add_button);
+    public void tableChanged(TableModelEvent e) {
+        System.out.println("table changed");
     }
 
     public void frame_setup() {
-        // set up the size
-        f.setSize(1000, 1000);
+        f.add(table_pane, BorderLayout.NORTH);
+        f.add(add_pane, BorderLayout.SOUTH);
 
-        // layout
-        f.setLayout(null);
-
-        // visible or not
+        f.pack();
         f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void table_setup() {
         Vector<Vector<String>> book_data = our_lib.print_books();
         Vector<String> heading = new Vector<>();
+        
         heading.add("Name");
         heading.add("Publisher");
         heading.add("Num. Pages");
@@ -146,9 +117,37 @@ public class GUI extends JFrame implements ActionListener {
         heading.add("End Date");
         this.book_table = new JTable(book_data, heading);
 
-        book_table.setBounds(240, 5, 600, 500);
+        book_table.getModel().addTableModelListener(this);
 
-        this.sp = new JScrollPane(book_table);
-        f.add(sp);
+        this.sp = new JScrollPane(book_table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        book_table.setPreferredScrollableViewportSize(new Dimension(420, 250));
+        book_table.setFillsViewportHeight(true); 
+        table_pane = new JPanel();
+        table_pane.add(sp);
+    }
+
+    public void add_setup() {
+        add_button.addActionListener(this);
+
+        this.add_pane = new JPanel();
+        add_pane.setLayout(new GridLayout(7, 2));
+        add_pane.add(add_label);
+        add_pane.add(add_button);
+        add_pane.add(name_label);
+        add_pane.add(name_tf);
+        add_pane.add(publisher_label);
+        add_pane.add(publisher_tf);
+        add_pane.add(num_pages_label);
+        add_pane.add(num_pages_tf);
+        add_pane.add(rating_label);
+        add_pane.add(rating_tf);
+        add_pane.add(start_label);
+        add_pane.add(start_tf);
+        add_pane.add(end_label);
+        add_pane.add(end_tf);
+    }
+
+    public void delete_setup() {
+        delete_button.addActionListener(this);
     }
 }
