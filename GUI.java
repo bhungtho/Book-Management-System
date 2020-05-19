@@ -24,6 +24,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     JTextField rating_tf;
     JTextField start_tf;
     JTextField end_tf;
+
+    JTextField name2_tf;
     
     JLabel add_label;
     JLabel name_label;
@@ -32,6 +34,9 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     JLabel rating_label;
     JLabel start_label;
     JLabel end_label;
+
+    JLabel delete_label;
+    JLabel name2_label;
 
     JTable book_table;
 
@@ -61,6 +66,9 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         this.start_label = new JLabel("Start Date:");
         this.end_label = new JLabel("End Date:");
 
+        this.delete_label = new JLabel("Delete A Book");
+        this.name2_label = new JLabel ("Book Name:");
+
         // text fields
         this.name_tf = new JTextField(20);
         this.publisher_tf = new JTextField(20);
@@ -68,6 +76,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         this.rating_tf = new JTextField(20);
         this.start_tf = new JTextField(20);
         this.end_tf = new JTextField(20);
+
+        this.name2_tf = new JTextField(20);
 
         table_setup();
         add_setup();
@@ -99,6 +109,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     public void frame_setup() {
         f.add(table_pane, BorderLayout.NORTH);
         f.add(add_pane, BorderLayout.SOUTH);
+        f.add(delete_pane, BorderLayout.EAST);
 
         f.pack();
         f.setVisible(true);
@@ -149,5 +160,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
     public void delete_setup() {
         delete_button.addActionListener(this);
+
+        this.delete_pane = new JPanel();
+        delete_pane.setLayout(new GridLayout(2, 2));
+        delete_pane.add(delete_label);
+        delete_pane.add(delete_button);
+        delete_pane.add(name2_label);
+        delete_pane.add(name2_tf);
     }
 }
