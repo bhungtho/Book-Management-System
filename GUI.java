@@ -81,7 +81,6 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
         table_setup();
         add_setup();
-        delete_setup();
         frame_setup();
     }
 
@@ -100,6 +99,10 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
             our_lib.add_book(name, publisher, num_pages_int, rating_int, start, end);
             //table_setup();
         }
+        else if(e.getSource() == delete_button) {
+            String name = name2_tf.getText();
+            our_lib.delete_book(name);
+        }
     }
 
     public void tableChanged(TableModelEvent e) {
@@ -109,7 +112,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     public void frame_setup() {
         f.add(table_pane, BorderLayout.NORTH);
         f.add(add_pane, BorderLayout.SOUTH);
-        f.add(delete_pane, BorderLayout.EAST);
+        //f.add(delete_pane, BorderLayout.EAST);
 
         f.pack();
         f.setVisible(true);
@@ -139,9 +142,10 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
     public void add_setup() {
         add_button.addActionListener(this);
+        delete_button.addActionListener(this);
 
         this.add_pane = new JPanel();
-        add_pane.setLayout(new GridLayout(7, 2));
+        add_pane.setLayout(new GridLayout(9, 2));
         add_pane.add(add_label);
         add_pane.add(add_button);
         add_pane.add(name_label);
@@ -156,16 +160,9 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         add_pane.add(start_tf);
         add_pane.add(end_label);
         add_pane.add(end_tf);
-    }
-
-    public void delete_setup() {
-        delete_button.addActionListener(this);
-
-        this.delete_pane = new JPanel();
-        delete_pane.setLayout(new GridLayout(2, 2));
-        delete_pane.add(delete_label);
-        delete_pane.add(delete_button);
-        delete_pane.add(name2_label);
-        delete_pane.add(name2_tf);
+        add_pane.add(delete_label);
+        add_pane.add(delete_button);
+        add_pane.add(name2_label);
+        add_pane.add(name2_tf);
     }
 }
