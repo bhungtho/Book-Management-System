@@ -77,6 +77,7 @@ public class Database {
             //System.out.println("Opened database successfully");
 
             // get values for insertion
+            int book_id = to_add.get_id();
             String name = to_add.get_name();
             String publisher = to_add.get_publisher();
             int num_pages = to_add.get_num_pages();
@@ -86,8 +87,9 @@ public class Database {
 
             // SQL formation and execution
             stmt = c.createStatement();
-            String sql = "INSERT INTO BOOKS (NAME, PUBLISHER, NUM_PAGES, RATING, START_DATE, END_DATE) "
-                + "VALUES ('" + name + "', '"
+            String sql = "INSERT INTO BOOKS (EntryID, Name, Publisher, NumPages, Rating, StartDate, EndDate) "
+                + "VALUES ('" + book_id + "', '" 
+                + name + "', '"
                 + publisher + "', '"
                 + Integer.toString(num_pages) + "', '"
                 + Integer.toString(rating) + "', '"
@@ -107,7 +109,7 @@ public class Database {
             return;
     }
 
-    public void delete_book(String to_delete) {
+    public void delete_book(int to_delete) {
         Connection c = null;
         Statement stmt = null;
         try {
@@ -120,7 +122,7 @@ public class Database {
             //String to_delete_name = to_delete.get_name();
 
             stmt = c.createStatement();
-            String sql = "DELETE from BOOKS where NAME = " + "'" + to_delete + "';";
+            String sql = "DELETE from BOOKS where EntryID = " + "'" + to_delete + "';";
             stmt.executeUpdate(sql);
             c.commit();
 
@@ -203,8 +205,10 @@ public class Database {
                     rs.close();
                     stmt.close();
                     c.close();
+                    input.close();
                     return;
             }
+            input.close();
 
             stmt = c.createStatement();
             // String sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
@@ -234,16 +238,19 @@ public class Database {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM BOOKS;");
             while (rs.next()) {
-                String name = rs.getString("name");
-                String publisher = rs.getString("publisher");
-                int num_pages = rs.getInt("num_pages");
+                int book_id = rs.getInt("EntryID");
+                String book_id_string = Integer.toString(book_id);
+                String name = rs.getString("Name");
+                String publisher = rs.getString("Publisher");
+                int num_pages = rs.getInt("NumPages");
                 String num_pages_string = Integer.toString(num_pages);
-                int rating = rs.getInt("rating");
+                int rating = rs.getInt("Rating");
                 String rating_string = Integer.toString(rating);
-                String start_date = rs.getString("start_date");
-                String end_date = rs.getString("end_date");
+                String start_date = rs.getString("StartDate");
+                String end_date = rs.getString("EndDate");
 
                 Vector<String> book_data_temp = new Vector<>();
+                book_data_temp.add(book_id_string);
                 book_data_temp.add(name);
                 book_data_temp.add(publisher);
                 book_data_temp.add(num_pages_string);

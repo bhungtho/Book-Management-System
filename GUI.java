@@ -8,8 +8,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
+//import javax.swing.table.AbstractTableModel;
+//import javax.swing.table.TableModel;
 
 public class GUI extends JFrame implements ActionListener, TableModelListener {
     Library our_lib;
@@ -17,6 +17,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
 
     JButton add_button;
     JButton delete_button;
+    JButton create_table;
+    JButton filler;
     
     JTextField name_tf;
     JTextField publisher_tf;
@@ -56,6 +58,8 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         // buttons
         this.add_button = new JButton("Add");
         this.delete_button = new JButton("Delete");
+        this.create_table = new JButton("Create Table");
+        this.filler = new JButton("");
         
         // labels
         this.add_label = new JLabel("Add A Book");
@@ -67,7 +71,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         this.end_label = new JLabel("End Date:");
 
         this.delete_label = new JLabel("Delete A Book");
-        this.name2_label = new JLabel ("Book Name:");
+        this.name2_label = new JLabel ("Book ID:");
 
         // text fields
         this.name_tf = new JTextField(20);
@@ -100,8 +104,9 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
             //table_setup();
         }
         else if(e.getSource() == delete_button) {
-            String name = name2_tf.getText();
-            our_lib.delete_book(name);
+            String entry_id = name2_tf.getText();
+            int entry_id_int = Integer.parseInt(entry_id);
+            our_lib.delete_book(entry_id_int);
         }
     }
 
@@ -123,6 +128,7 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
         Vector<Vector<String>> book_data = our_lib.print_books();
         Vector<String> heading = new Vector<>();
         
+        heading.add("Entry ID");
         heading.add("Name");
         heading.add("Publisher");
         heading.add("Num. Pages");
@@ -143,9 +149,12 @@ public class GUI extends JFrame implements ActionListener, TableModelListener {
     public void add_setup() {
         add_button.addActionListener(this);
         delete_button.addActionListener(this);
+        create_table.addActionListener(this);
 
         this.add_pane = new JPanel();
         add_pane.setLayout(new GridLayout(9, 2));
+        //add_pane.add(create_table);
+        //add_pane.add(filler);
         add_pane.add(add_label);
         add_pane.add(add_button);
         add_pane.add(name_label);

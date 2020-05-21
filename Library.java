@@ -11,8 +11,8 @@ public class Library {
         new_database.insert_book(new_book);
     }
 
-    public void delete_book(String book_name) {
-        new_database.delete_book(book_name);
+    public void delete_book(int book_id) {
+        new_database.delete_book(book_id);
     }
 
     public void update_book() {
@@ -38,6 +38,7 @@ public class Library {
         }
         System.out.println();
         new_database.update_books(book_name);
+        input.close();
     }
 
     public Vector<Vector<String>> print_books() {
