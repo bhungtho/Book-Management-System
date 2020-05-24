@@ -3,13 +3,9 @@ import java.awt.event.*;
 import java.util.Vector;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-//import java.awt.FlowLayout;
-//import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-//import javax.swing.table.AbstractTableModel;
-//import javax.swing.table.TableModel;
 
 public class GUI extends JFrame implements ActionListener, TableModelListener {
     Library our_lib;

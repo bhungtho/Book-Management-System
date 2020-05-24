@@ -20,14 +20,17 @@ public class Database {
         // System.out.println("Opened database successfully");
     }
 
+    // creates the table
     public void create_table() {
         Connection c = null;
         Statement stmt = null;
         try {
+            // connect to database
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             System.out.println("Opened database successfully");
 
+            // SQL formation
             stmt = c.createStatement();
             String sql = "CREATE TABLE BOOKS " +
                 "(NAME           TEXT, " +
@@ -36,6 +39,8 @@ public class Database {
                 " RATING         INT, " +
                 " START_DATE     TEXT, " +
                 " END_DATE       TEXT)";
+
+            // SQL execution
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -43,19 +48,23 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        System.out.println("Table created successfully");
     }
 
+    // deletes a table
     public void delete_table() {
         Connection c = null;
         Statement stmt = null;
         try {
+            // connect to database
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             System.out.println("Opened database successfully");
 
+            // SQL formation
             stmt = c.createStatement();
             String sql = "DROP TABLE COMPANY";
+
+            // SQL execution
             stmt.executeUpdate(sql);
             stmt.close();
             c.close();
@@ -66,6 +75,7 @@ public class Database {
         System.out.println("Table deleted successfully");
     }
 
+    // insert a book into the database
     public void insert_book(Book to_add) {
         Connection c = null;
         Statement stmt = null;
@@ -106,21 +116,19 @@ public class Database {
             System.exit(0);
         }
         System.out.println("Book added successfully");
-            return;
     }
 
     public void delete_book(int to_delete) {
         Connection c = null;
         Statement stmt = null;
         try {
+            // connect to database
             Class.forName("org.postgresql.Driver");
-            c = DriverManager
-                .getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
+            c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             c.setAutoCommit(false);
             //System.out.println("Opened database successfully");
 
-            //String to_delete_name = to_delete.get_name();
-
+            // SQL formation and execution
             stmt = c.createStatement();
             String sql = "DELETE from BOOKS where EntryID = " + "'" + to_delete + "';";
             stmt.executeUpdate(sql);
@@ -136,10 +144,8 @@ public class Database {
     }
 
     public void update_books(String update_name) {
-        // boolean valid = false;
         Connection c = null;
         Statement stmt = null;
-        //Statement query = null;
         try {
             // connect to database library
             Class.forName("org.postgresql.Driver");
@@ -147,9 +153,13 @@ public class Database {
             c.setAutoCommit(false);
             // System.out.println("Opened database successfully");
 
+            // SQL formation
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM BOOKS WHERE NAME = '" + update_name + "'");
+
+            // iterates through records in the table
             while (rs.next()) {
+                // gets variables
                 String name = rs.getString("name");
                 String publisher = rs.getString("publisher");
                 int num_pages = rs.getInt("num_pages");
@@ -157,6 +167,7 @@ public class Database {
                 String start_date = rs.getString("start_date");
                 String end_date = rs.getString("end_date");
 
+                // print variables
                 System.out.println("NAME = " + name);
                 System.out.println("PUBLISHER = " + publisher);
                 System.out.println("NUM_PAGES = " + num_pages);
@@ -171,6 +182,7 @@ public class Database {
             String update_field = null;
             int update_field_int = 0;
 
+            // get input
             Scanner input = new Scanner(System.in);
             String field = input.nextLine();
             System.out.println("What would you like to update " + field + " to?");
@@ -210,8 +222,8 @@ public class Database {
             }
             input.close();
 
+            // execute SQL
             stmt = c.createStatement();
-            // String sql = "UPDATE BOOKS set " + field + " = '" + update_field + "' where NAME = '" + update_name + "';";
             stmt.executeUpdate(sql);
             c.commit();
             
@@ -230,14 +242,16 @@ public class Database {
         Connection c = null;
         Statement stmt = null;
         try {
+            // connect to database
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://localhost:5432/library", "postgres", "unlock");
             c.setAutoCommit(false);
-            //System.out.println("Opened database successfully");
 
+            // SQL formation and execution
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM BOOKS;");
             while (rs.next()) {
+                // get all data from table
                 int book_id = rs.getInt("EntryID");
                 String book_id_string = Integer.toString(book_id);
                 String name = rs.getString("Name");
@@ -249,6 +263,7 @@ public class Database {
                 String start_date = rs.getString("StartDate");
                 String end_date = rs.getString("EndDate");
 
+                // add data to vector
                 Vector<String> book_data_temp = new Vector<>();
                 book_data_temp.add(book_id_string);
                 book_data_temp.add(name);
@@ -258,17 +273,8 @@ public class Database {
                 book_data_temp.add(start_date);
                 book_data_temp.add(end_date);
 
+                // add vector to overall vector
                 book_data.add(book_data_temp);
-
-                /*
-                System.out.println("NAME = " + name);
-                System.out.println("PUBLISHER = " + publisher);
-                System.out.println("NUM_PAGES = " + num_pages);
-                System.out.println("RATING = " + rating);
-                System.out.println("START_DATE = " + start_date);
-                System.out.println("END_DATE = " + end_date);
-                System.out.println();
-                */
             }
             rs.close();
             stmt.close();
@@ -277,7 +283,6 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
             System.exit(0);
         }
-        //System.out.println("Operation done successfully");
         return book_data;
     }
 
